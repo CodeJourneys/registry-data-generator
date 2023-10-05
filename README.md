@@ -1,33 +1,33 @@
 # Docker Images Generator
-Generate uniquely named Docker images made up of unique layers with a given layer size and number of layers (`layer size` X `number of layers` = `image total size`) and upload them to a Docker registry.
+Generate uniquely named Docker images made up of unique layers with a given layer size and number of layers (`layer size` X `number of layers` = `image total size`) and upload them to a registry.
 
 The build and upload can run in parallel processes for increased load and saving time.
 
 ## Use case
-I use this to upload unique Docker images and load test my [Artifactory](https://jfrog.com/artifactory/) instance, which is also my Docker registry.
+I use this to upload unique container images and load test a registry.
 
 ## Design
-The generator runs locally using your installed Docker engine or in a Docker container (based on `docker:dind`), generating images using pre-defined parameters and then uploads to the set Docker registry.
+The generator runs locally using your installed Docker engine or in a Docker container (based on `docker:dind`), generating images using pre-defined parameters and then uploads to the set registry.
 
 ## Variables
 The following environment variables are used to configure the execution
 
 |         Variable        |           Description                             |   Default                       |
 |-------------------------|---------------------------------------------------|---------------------------------|
-| `NUMBER_OF_IMAGES`      | Total number of unique Docker images to create    | `1`                             |
-| `NUMBER_OF_LAYERS`      | Number of layers per Docker image                 | `1`                             |
+| `NUMBER_OF_IMAGES`      | Total number of unique images to create           | `1`                             |
+| `NUMBER_OF_LAYERS`      | Number of layers per image                        | `1`                             |
 | `SIZE_OF_LAYER_KB`      | Size in KB of each layer                          | `1`                             |
 | `NUM_OF_THREADS`        | Number of parallel processes to run               | `1`                             |
-| `TAG`                   | Generated Docker image tag                        | `1`                             |
-| `DOCKER_REGISTRY`       | The Docker registry to push the built images to   | (Must pass value or will fail)  |
+| `TAG`                   | Tag for the generated image                       | `1`                             |
+| `DOCKER_REGISTRY`       | The registry to push the built images to          | (Must pass value or will fail)  |
 | `INSECURE_REGISTRY`     | Allow insecure registry connection                | `false`                         |
-| `DOCKER_USER`           | Docker registry username for `DOCKER_REGISTRY`    | `admin`                         |
-| `DOCKER_PASSWORD`       | Docker registry password for `DOCKER_REGISTRY`    | `password`                      |
+| `DOCKER_USER`           | Registry username for `DOCKER_REGISTRY`           | `admin`                         |
+| `DOCKER_PASSWORD`       | Registry password for `DOCKER_REGISTRY`           | `password`                      |
 | `REPO_PATH`             | Path under `DOCKER_REGISTRY` to push images to    | `docker-auto`                   |
 | `REMOVE_IMAGES`         | Remove created images from host                   | `true`                          |
 | `DEBUG`                 | Provide debug output (shell set -x)               | ``                              |
 
-## Build Docker image
+## Build an image
 Build the generator Docker image
 ```shell
 export REGISTRY=
