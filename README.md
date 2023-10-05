@@ -89,9 +89,9 @@ docker run --rm --name docker-data-gen \
 ```
 
 ### Run in Kubernetes with provided Helm chart
-It's possible to deploy the Docker image generator with the helm chart in [docker-image-generator](docker-image-generator).
+It's possible to deploy the registry data generator with the helm chart in [registry-data-generator](registry-data-generator).
 
-It's recommended to prepare a custom `values.yaml` file for each scenario with the custom `env` needed. See [values-example-1gb.yaml](docker-image-generator/values-example-1gb.yaml) as example.
+It's recommended to prepare a custom `values.yaml` file for each scenario with the custom `env` needed. See [values-example-1gb.yaml](registry-data-generator/values-example-1gb.yaml) as example.
 
 **IMPORTANT:** Be aware that the Job is set to run with `privileged: true`
 ```
@@ -104,10 +104,10 @@ It's recommended to prepare a custom `values.yaml` file for each scenario with t
 #### Deploy
 **IMPORTANT:** The Job deployed in K8s is not removed after completed, so you'll need to remove a deployed release before deploying again
 
-Example using the [values-example-1gb.yaml](docker-image-generator/values-example-1gb.yaml) as custom parameters
+Example using the [values-example-1gb.yaml](registry-data-generator/values-example-1gb.yaml) as custom parameters
 ```shell
 # Deploy
-cd docker-image-generator
+cd registry-data-generator
 helm install --upgrade data-gen -f values-example-1gb.yaml .
 
 # Remove once done

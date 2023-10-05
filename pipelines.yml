@@ -1,15 +1,15 @@
 
 resources:
-  - name: docker_image_generator_repo
+  - name: registry_data_generator_repo
     type: GitRepo
     configuration:
       gitProvider: EldadaGitHub
-      path: eldada/docker-image-generator
+      path: eldada/registry-data-generator
       branches:
-        include: master
+        include: main
 
 pipelines:
-  - name: build_image_generator_docker_image
+  - name: build_registry_data_docker_image
 
     steps:
       - name: step_1_docker_build
@@ -22,7 +22,7 @@ pipelines:
 #          dockerImageTag: 0.${run_number}
           dockerImageTag: "0.14"
           inputResources:
-            - name: docker_image_generator_repo
+            - name: registry_data_generator_repo
           integrations:
             - name: EldadaArtifactory
 
