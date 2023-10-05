@@ -12,6 +12,7 @@ trap terminate SIGINT SIGTERM SIGHUP
 
 START_TIME=$(date +'%s')
 
+# Set defaults if any config param is missing
 export NUMBER_OF_IMAGES=${NUMBER_OF_IMAGES:-1}
 export NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS:-1}
 export SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB:-1}
@@ -36,19 +37,25 @@ if [ "${INSECURE_REGISTRY}" == true ]; then
     echo "Adding ${INSECURE_REGISTRY_FLAG} to the Docker daemon"
 fi
 
-# Start the Docker daemon
-echo "Starting docker daemon"
-dockerd-entrypoint.sh ${INSECURE_REGISTRY_FLAG} > /dev/null 2>&1 &
-DOCKER_PID=$!
-disown ${DOCKER_PID}
-
-# Allow time for daemon to start
-echo "Allowing time for docker daemon to come up"
-sleep 10
+# Customize the Docker daemon
+# If the variable DOCKERD_CUSTOMIZE_SCRIPT_PATH is set, execute it as a script
+# If that fails, exit with an error
+if [[ -n "${DOCKERD_CUSTOMIZE_SCRIPT_PATH}" ]]; then
+    echo "Executing ${DOCKERD_CUSTOMIZE_SCRIPT_PATH}"
+    if ! source "${DOCKERD_CUSTOMIZE_SCRIPT_PATH}"; then
+        exit 1
+    fi
+fi
 
 # Login to registry
-echo "Docker login to ${DOCKER_REGISTRY}"
-docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY} || exit 1
+# If the variable AUTH_SCRIPT_PATH is set, execute it as a script
+# If that fails, exit with an error
+if [[ -n "${AUTH_SCRIPT_PATH}" ]]; then
+    echo "Executing ${AUTH_SCRIPT_PATH}"
+    if ! source "${AUTH_SCRIPT_PATH}"; then
+        exit 1
+    fi
+fi
 
 # Calculate the loop size
 LOOP_SIZE=$(( ${NUMBER_OF_IMAGES} / ${NUM_OF_THREADS} ))

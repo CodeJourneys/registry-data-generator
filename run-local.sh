@@ -52,7 +52,7 @@ if [[ ! -f ./env.sh ]]; then
 fi
 source ./env.sh || errorExit "Loading env.sh failed"
 
-# Set defaults if any param is missing
+# Set defaults if any config param is missing
 export NUMBER_OF_IMAGES=${NUMBER_OF_IMAGES:-1}
 export NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS:-1}
 export SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB:-1}
@@ -72,8 +72,14 @@ echo "== Using ${NUM_OF_THREADS} threads"
 echo
 
 # Login to registry
-echo "Docker login to ${DOCKER_REGISTRY}"
-docker login -u ${DOCKER_USER} -p ${DOCKER_PASSWORD} ${DOCKER_REGISTRY} || errorExit "Docker login failed. Do you have a running Docker registry?"
+# If the variable AUTH_SCRIPT_PATH is set, execute it as a script
+# If that fails, exit with an error
+if [[ -n "${AUTH_SCRIPT_PATH}" ]]; then
+    echo "Executing ${AUTH_SCRIPT_PATH}"
+    if ! source "${AUTH_SCRIPT_PATH}"; then
+        errorExit "Executing ${AUTH_SCRIPT_PATH} failed"
+    fi
+fi
 
 # Calculate the loop size
 LOOP_SIZE=$((${NUMBER_OF_IMAGES} / ${NUM_OF_THREADS}))
