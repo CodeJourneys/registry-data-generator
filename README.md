@@ -47,7 +47,7 @@ You can run the generator directly with your Docker engine
 ```
 
 ### Run In A Docker container
-You can run the Docker container directly on your Docker enabled host (needs the `--privileged` to work).<br>
+You can run the Docker container directly on your Docker enabled host (currently needs docker socket access or `--privileged` flag to work).<br>
 You can use the already built image `eldada.jfrog.io/docker/docker-data-generator:0.16`
 ```shell
 # Example for creating 100 images with 10 layers 1MB each and uploading to docker.artifactory/test
@@ -78,7 +78,7 @@ docker run --rm --name registry-data-gen \
     -e REPO_PATH=${REPO_PATH} \
     -e REMOVE_IMAGES=${REMOVE_IMAGES} \
     -e DEBUG=${DEBUG} \
-    --privileged \
+    -v /var/run/docker.sock:/var/run/docker.sock \
     ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG}
 ```
 
