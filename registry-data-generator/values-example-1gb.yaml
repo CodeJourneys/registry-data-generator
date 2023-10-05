@@ -16,10 +16,10 @@ env:
   # Number of upload threads
   numOfThreads: 10
 
-  # Docker registry
-  dockerRegistry: docker.artifactory
+  # Registry URI
+  registryUri: docker.artifactory
 
-  # Set --insecure-registry=${DOCKER_REGISTRY} on the daemon
+  # Setד --insecure-registry=${REGISTRY_URI} on the daemon
   insecureRegistry: true
 
   # Docker user

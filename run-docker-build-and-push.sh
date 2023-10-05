@@ -16,7 +16,7 @@ GEN_DIR=$(mktemp -d)
 NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS:-1}
 SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB:-1}
 NUM_OF_THREADS=${NUM_OF_THREADS:-1}
-DOCKER_REGISTRY=${DOCKER_REGISTRY?Must set DOCKER_REGISTRY}
+REGISTRY_URI=${REGISTRY_URI?Must set REGISTRY_URI}
 DOCKER_USER=${DOCKER_USER:-admin}
 DOCKER_PASSWORD=${DOCKER_PASSWORD:-password}
 REPO_PATH=${REPO_PATH:-docker-auto}
@@ -63,7 +63,7 @@ fi
 
 # Build Docker image
 logger "Building image ${image_name}"
-CMD="docker build -t ${DOCKER_REGISTRY}/${REPO_PATH}/${image_name}:${TAG} ${GEN_DIR}/"
+CMD="docker build -t ${REGISTRY_URI}/${REPO_PATH}/${image_name}:${TAG} ${GEN_DIR}/"
 
 if [ "${DEBUG}" == true ]; then
     logger "Command to run: ${CMD}"

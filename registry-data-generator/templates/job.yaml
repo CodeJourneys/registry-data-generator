@@ -30,8 +30,8 @@ spec:
           value: '{{ .Values.env.sizeOfLayersKb }}'
         - name: NUM_OF_THREADS
           value: '{{ .Values.env.numOfThreads }}'
-        - name: DOCKER_REGISTRY
-          value: '{{ .Values.env.dockerRegistry }}'
+        - name: REGISTRY_URI
+          value: '{{ .Values.env.registryUri }}'
         - name: INSECURE_REGISTRY
           value: '{{ .Values.env.insecureRegistry }}'
         - name: DOCKER_USER

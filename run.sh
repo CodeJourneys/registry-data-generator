@@ -17,7 +17,7 @@ export NUMBER_OF_IMAGES=${NUMBER_OF_IMAGES:-1}
 export NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS:-1}
 export SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB:-1}
 export NUM_OF_THREADS=${NUM_OF_THREADS:-1}
-export DOCKER_REGISTRY=${DOCKER_REGISTRY?Must set DOCKER_REGISTRY}
+export REGISTRY_URI=${REGISTRY_URI?Must set REGISTRY_URI}
 export INSECURE_REGISTRY=${INSECURE_REGISTRY:-false}
 export DOCKER_USER=${DOCKER_USER:-admin}
 export DOCKER_PASSWORD=${DOCKER_PASSWORD:-password}
@@ -33,13 +33,13 @@ echo
 
 INSECURE_REGISTRY_FLAG=
 if [ "${INSECURE_REGISTRY}" == true ]; then
-    INSECURE_REGISTRY_FLAG=--insecure-registry=${DOCKER_REGISTRY}
+    INSECURE_REGISTRY_FLAG=--insecure-registry=${REGISTRY_URI}
     echo "Adding ${INSECURE_REGISTRY_FLAG} to the Docker daemon"
 fi
 
 # Customize the Docker daemon
 # If the variable DOCKERD_CUSTOMIZE_SCRIPT_PATH is set, execute it as a script
-# If that fails, exit with an error
+# If that fails, exit
 if [[ -n "${DOCKERD_CUSTOMIZE_SCRIPT_PATH}" ]]; then
     echo "Executing ${DOCKERD_CUSTOMIZE_SCRIPT_PATH}"
     if ! source "${DOCKERD_CUSTOMIZE_SCRIPT_PATH}"; then
@@ -49,7 +49,7 @@ fi
 
 # Login to registry
 # If the variable AUTH_SCRIPT_PATH is set, execute it as a script
-# If that fails, exit with an error
+# If that fails, exit
 if [[ -n "${AUTH_SCRIPT_PATH}" ]]; then
     echo "Executing ${AUTH_SCRIPT_PATH}"
     if ! source "${AUTH_SCRIPT_PATH}"; then
