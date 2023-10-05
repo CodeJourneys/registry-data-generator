@@ -30,7 +30,7 @@ logger "==== Creating Docker image"
 GEN_ID=$(openssl rand -hex 4)
 
 # Build Docker image
-image_name_prefix="generated-${NUMBER_OF_LAYERS}x${SIZE_OF_LAYER_KB}kb"
+image_name_prefix="generated-$(date +%H%M%S)-${NUMBER_OF_LAYERS}x${SIZE_OF_LAYER_KB}kb"
 image_name=${image_name_prefix}-${GEN_ID}-$(openssl rand -hex 16)
 logger "Image name: ${image_name}"
 
