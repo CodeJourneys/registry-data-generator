@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Script to run the generation scripts locally with the local Docker engine
-# Copy ./env-template.sh to ./env.sh and set desired configuration values.
+# Copy ./templates/env-default.sh to ./env.sh and set desired configuration values.
 
 # Docker registry was setup with a locally running Artifactory:
 ## $ docker run --name rt -p 8082:8082 releases-docker.jfrog.io/jfrog/artifactory-jcr
@@ -43,11 +43,11 @@ START_TIME=$(date +'%s')
 if [[ ! -f ./env.sh ]]; then
     echo
     echo "########################################################################"
-    echo "# Creating initial env.sh from env-template.sh."
+    echo "# Creating initial env.sh from ./templates/env-default.sh."
     echo "# Edit env.sh with the required configuration and run $0 again."
     echo "########################################################################"
     echo
-    cp ./env-template.sh ./env.sh || errorExit "Copying ./env-template.sh to ./env.sh failed"
+    cp ./templates/env-default.sh ./env.sh || errorExit "Copying ./templates/env-default.sh to ./env.sh failed"
     exit 0
 fi
 source ./env.sh || errorExit "Loading env.sh failed"

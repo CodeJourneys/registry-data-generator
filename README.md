@@ -41,7 +41,7 @@ docker build -t ${REGISTRY}/${REPOSITORY}:${IMAGE_TAG} .
 
 ### Run In Local Shell
 You can run the generator directly with your Docker engine
-1. Copy `env-template.sh` to `env.sh` (if not copied, it will be copied with its current values in the first run)
+1. Copy `templates/env-default.sh` to `env.sh` (if not copied, it will be copied with its current values in the first run)
 2. Edit `env.sh` to adjust your configuration
 3. Run the script
 ```shell
