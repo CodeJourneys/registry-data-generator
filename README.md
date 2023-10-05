@@ -1,7 +1,7 @@
 # Docker Images Generator
 Generate uniquely named Docker images made up of unique layers with a given layer size and number of layers (`layer size` X `number of layers` = `image total size`) and upload them to a registry.
 
-The build and upload can run in parallel processes for increased load and saving time.
+The build and upload can run in parallel processes for increased resource utilization and time savings.
 
 ## Use case
 I use this to upload unique container images and load test a registry.
@@ -19,11 +19,9 @@ The following environment variables are used to configure the execution
 | `SIZE_OF_LAYER_KB`      | Size in KB of each layer                          | `1`                             |
 | `NUM_OF_THREADS`        | Number of parallel processes to run               | `1`                             |
 | `TAG`                   | Tag for the generated image                       | `1`                             |
-| `DOCKER_REGISTRY`       | The registry to push the built images to          | (Must pass value or will fail)  |
+| `REGISTRY_URI`          | The registry to push the built images to          | (Must pass value or will fail)  |
 | `INSECURE_REGISTRY`     | Allow insecure registry connection                | `false`                         |
-| `DOCKER_USER`           | Registry username for `DOCKER_REGISTRY`           | `admin`                         |
-| `DOCKER_PASSWORD`       | Registry password for `DOCKER_REGISTRY`           | `password`                      |
-| `REPO_PATH`             | Path under `DOCKER_REGISTRY` to push images to    | `docker-auto`                   |
+| `REPO_PATH`             | Path under `REGISTRY_URI` to push images to       | `docker-auto`                   |
 | `REMOVE_IMAGES`         | Remove created images from host                   | `true`                          |
 | `DEBUG`                 | Provide debug output (shell set -x)               | ``                              |
 
@@ -63,24 +61,20 @@ export NUMBER_OF_LAYERS=10
 export SIZE_OF_LAYER_KB=1024
 export NUM_OF_THREADS=3
 export TAG=1
-export DOCKER_REGISTRY=docker.artifactory
+export REGISTRY_URI=docker.artifactory
 export INSECURE_REGISTRY=true
-export DOCKER_USER=${YOUR_DOCKER_USERNAME}
-export DOCKER_PASSWORD=${YOUR_DOCKER_PASSWORD}
 export REPO_PATH=test
 export REMOVE_IMAGES=true
 export DEBUG=
 
-docker run --rm --name docker-data-gen \
+docker run --rm --name registry-data-gen \
     -e NUMBER_OF_IMAGES=${NUMBER_OF_IMAGES} \
     -e NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS} \
     -e SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB} \
     -e NUM_OF_THREADS=${NUM_OF_THREADS} \
     -e TAG=${TAG} \
-    -e DOCKER_REGISTRY=${DOCKER_REGISTRY} \
+    -e REGISTRY_URI=${REGISTRY_URI} \
     -e INSECURE_REGISTRY=${INSECURE_REGISTRY} \
-    -e DOCKER_USER=${DOCKER_USER} \
-    -e DOCKER_PASSWORD=${DOCKER_PASSWORD} \
     -e REPO_PATH=${REPO_PATH} \
     -e REMOVE_IMAGES=${REMOVE_IMAGES} \
     -e DEBUG=${DEBUG} \

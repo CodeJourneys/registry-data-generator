@@ -34,10 +34,6 @@ spec:
           value: '{{ .Values.env.registryUri }}'
         - name: INSECURE_REGISTRY
           value: '{{ .Values.env.insecureRegistry }}'
-        - name: DOCKER_USER
-          value: '{{ .Values.env.dockerUser }}'
-        - name: DOCKER_PASSWORD
-          value: '{{ .Values.env.dockerPassword }}'
         - name: REPO_PATH
           value: '{{ .Values.env.repoPath }}'
         - name: REMOVE_IMAGES
