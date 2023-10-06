@@ -1,4 +1,4 @@
-# Docker Images Generator
+# Registry Data Generator
 Generate uniquely named Docker images made up of unique layers with a given layer size and number of layers (`layer size` X `number of layers` = `image total size`) and upload them to a registry.
 
 The build and upload can run in parallel processes for increased resource utilization and time savings.
