@@ -25,9 +25,10 @@ terminate() {
 
 buildImagesLoop() {
     local num=$1
+    local imageprefix="rand-img-$(openssl rand -hex 4)"
     for b in $(seq 1 "${num}"); do
         sleep 1
-        ./run-docker-build-and-push.sh "${b}" &
+        ./run-docker-build-and-push.sh $imageprefix "${b}" &
     done
 
     # Wait for all background processes to finish
@@ -64,8 +65,6 @@ export REMOVE_IMAGES=${REMOVE_IMAGES:-true}
 export TAG=${TAG:-1}
 
 echo "== Creating ${NUMBER_OF_IMAGES} Docker images"
-echo "== Images with ${NUMBER_OF_LAYERS} layers"
-echo "== Layers size ${SIZE_OF_LAYER_KB} KB"
 echo "== Using ${NUM_OF_THREADS} threads"
 echo
 
@@ -106,7 +105,5 @@ ELAPSED_TIME=$((${END_TIME} - ${START_TIME}))
 echo "==============================================="
 echo "== Completed in:          ${ELAPSED_TIME} seconds"
 echo "== Created:               ${NUMBER_OF_IMAGES} images"
-echo "== Each image with:       ${NUMBER_OF_LAYERS} layers"
-echo "== Layer size:            ${SIZE_OF_LAYER_KB} KB"
 echo "== Using:                 ${NUM_OF_THREADS} threads"
 echo "==============================================="

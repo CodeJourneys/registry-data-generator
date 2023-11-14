@@ -4,7 +4,8 @@
 
 [ "${DEBUG}" == true ] && set -x
 
-THREAD=${1:-standalone}
+IMAGE_PREFIX=${1:-generated-$(date +%Y%m%d)}
+THREAD=${2:-standalone}
 
 logger () {
     echo "  [Thread ${THREAD}] ${1}"
@@ -26,10 +27,10 @@ logger "==== Creating Docker image"
 
 # A common ID to be used later
 GEN_ID=$(openssl rand -hex 4)
+TAG=$(openssl rand -hex 4)
 
 # Build Docker image
-image_name_prefix="generated-$(date +%H%M%S)-${NUMBER_OF_LAYERS}x${SIZE_OF_LAYER_KB}kb"
-image_name=${image_name_prefix}-${GEN_ID}-$(openssl rand -hex 16)
+image_name=${IMAGE_PREFIX}
 logger "Image name: ${image_name}"
 
 # Create Dockerfile
@@ -82,12 +83,12 @@ rm -rf ${GEN_DIR}
 if [ "${DEBUG}" == true ]; then
     # List Docker images
     logger "Generated Docker image"
-    docker images | grep ${image_name_prefix}-${GEN_ID}
+    docker images | grep ${image_name}
 fi
 
 # Push images
 logger "Pushing Docker images"
-for a in $(docker images | grep ${image_name_prefix}-${GEN_ID} | awk '{print $1}'); do
+for a in $(docker images | grep ${image_name} | awk '{print $1}'); do
     logger "Pushing ${a}:${TAG}"
     CMD="docker push ${a}:${TAG}"
     if [ "${DEBUG}" == true ]; then
@@ -98,7 +99,7 @@ done
 
 if [ "${REMOVE_IMAGES}" == true ]; then
     logger "REMOVE_IMAGES is true. Removing generated images"
-    docker images | grep ${image_name_prefix}-${GEN_ID} | awk '{print $3}' | xargs docker rmi -f > /dev/null 2>&1
+    docker images | grep ${image_name} | awk '{print $3}' | xargs docker rmi -f > /dev/null 2>&1
 fi
 
 if [ "${ERROR}" == true ]; then
