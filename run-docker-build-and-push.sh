@@ -25,6 +25,11 @@ ERROR=false
 
 logger "==== Creating Docker image"
 
+RANDOM=$$$(date +%s)
+SPREAD_SIZE_OF_LAYER_BYTES=()
+
+echo "==== with ${NUMBER_OF_LAYERS} layers"
+
 # A common ID to be used later
 GEN_ID=$(openssl rand -hex 4)
 TAG=$(openssl rand -hex 4)
@@ -39,7 +44,9 @@ echo 'FROM scratch' > ${GEN_DIR}/Dockerfile
 # Create the files for the images
 for b in $(seq 1 ${NUMBER_OF_LAYERS}); do
     file_name=$(openssl rand -hex 16)
-    CMD="dd if=/dev/urandom of=${GEN_DIR}/${file_name} bs=${SIZE_OF_LAYER_KB} count=1024"
+    SIZE_OF_LAYER_BYTES=${SPREAD_SIZE_OF_LAYER_BYTES[$((RANDOM % ${#SPREAD_SIZE_OF_LAYER_BYTES[@]}))]}
+    echo "==== with ${SIZE_OF_LAYER_BYTES} bytes"
+    CMD="dd if=/dev/urandom of=${GEN_DIR}/${file_name} bs=${SIZE_OF_LAYER_BYTES} count=1"
     if [ "${DEBUG}" == true ]; then
         logger "Command to run: ${CMD}"
         ${CMD} || ERROR=true

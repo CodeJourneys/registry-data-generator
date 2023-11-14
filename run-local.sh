@@ -54,7 +54,6 @@ fi
 source ./env.sh || errorExit "Loading env.sh failed"
 
 # Set defaults if any config param is missing
-export NUMBER_OF_IMAGES=${NUMBER_OF_IMAGES:-1}
 export NUMBER_OF_LAYERS=${NUMBER_OF_LAYERS:-1}
 export SIZE_OF_LAYER_KB=${SIZE_OF_LAYER_KB:-1}
 export NUM_OF_THREADS=${NUM_OF_THREADS:-1}
@@ -64,7 +63,13 @@ export REPO_PATH=${REPO_PATH:-docker-auto}
 export REMOVE_IMAGES=${REMOVE_IMAGES:-true}
 export TAG=${TAG:-1}
 
+# Set NUMBER_OF_IMAGES to a random number between 1 and 100
+RANDOM=$$$(date +%s)
+SPREAD_NUMBER_OF_IMAGES=()
+NUMBER_OF_IMAGES=${SPREAD_NUMBER_OF_IMAGES[$((RANDOM % ${#SPREAD_NUMBER_OF_IMAGES[@]}))]}
+
 echo "== Creating ${NUMBER_OF_IMAGES} Docker images"
+echo "== Images with ${NUMBER_OF_LAYERS} layers"
 echo "== Using ${NUM_OF_THREADS} threads"
 echo
 
