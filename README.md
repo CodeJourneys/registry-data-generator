@@ -107,3 +107,7 @@ helm install --upgrade data-gen -f values-example-1gb.yaml .
 # Remove once done
 helm uninstall data-gen
 ```
+
+
+#### Attribution
+Based on https://github.com/eldada/docker-image-generator
