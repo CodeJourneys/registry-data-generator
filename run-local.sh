@@ -68,7 +68,9 @@ RANDOM=$$$(date +%s)
 SPREAD_NUMBER_OF_IMAGES=()
 NUMBER_OF_IMAGES=${SPREAD_NUMBER_OF_IMAGES[$((RANDOM % ${#SPREAD_NUMBER_OF_IMAGES[@]}))]}
 
-echo "== Creating ${NUMBER_OF_IMAGES} Docker images"
+GEN_ID=$(openssl rand -hex 4)
+
+echo "== Creating ${NUMBER_OF_IMAGES} Docker images - ${GEN_ID}"
 echo "== Images with ${NUMBER_OF_LAYERS} layers"
 echo "== Using ${NUM_OF_THREADS} threads"
 echo
@@ -111,4 +113,5 @@ echo "==============================================="
 echo "== Completed in:          ${ELAPSED_TIME} seconds"
 echo "== Created:               ${NUMBER_OF_IMAGES} images"
 echo "== Using:                 ${NUM_OF_THREADS} threads"
+echo "== Run Id:                ${GEN_ID}"
 echo "==============================================="
