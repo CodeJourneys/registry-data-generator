@@ -95,7 +95,7 @@ fi
 
 # Push images
 logger "Pushing Docker images"
-for a in $(docker images | grep ${image_name} | awk '{print $1}'); do
+for a in $(docker images | grep ${image_name} | grep ${TAG} | awk '{print $1}'); do
     logger "Pushing ${a}:${TAG}"
     CMD="docker push ${a}:${TAG}"
     if [ "${DEBUG}" == true ]; then
@@ -106,7 +106,7 @@ done
 
 if [ "${REMOVE_IMAGES}" == true ]; then
     logger "REMOVE_IMAGES is true. Removing generated images"
-    docker images | grep ${image_name} | awk '{print $3}' | xargs docker rmi -f > /dev/null 2>&1
+    docker images | grep ${image_name} | grep ${TAG} | awk '{print $3}' | xargs docker rmi -f > /dev/null 2>&1
 fi
 
 if [ "${ERROR}" == true ]; then
