@@ -23,12 +23,13 @@ terminate() {
     exit 1
 }
 
+buildimageprefix="rand-img-$(openssl rand -hex 4)"
+
 buildImagesLoop() {
     local num=$1
-    local imageprefix="rand-img-$(openssl rand -hex 4)"
     for b in $(seq 1 "${num}"); do
         sleep 1
-        ./run-docker-build-and-push.sh $imageprefix "${b}" &
+        ./run-docker-build-and-push.sh $buildimageprefix "${b}" &
     done
 
     # Wait for all background processes to finish
