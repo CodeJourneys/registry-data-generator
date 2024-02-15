@@ -110,4 +110,4 @@ helm uninstall data-gen
 
 
 #### Attribution
-Based on https://github.com/eldada/docker-image-generator
+This project is based on [docker-image-generator](https://github.com/eldada/docker-image-generator). Big thank you to [@eldada](https://github.com/eldada) for all the hard work.
